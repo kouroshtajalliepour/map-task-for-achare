@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // * imports
-import { ref, onMounted, watch, defineProps, defineEmits } from "vue";
+import { ref, onMounted, watch, defineEmits } from "vue";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import Pointer from "@/components/icons/pointer.vue";
@@ -49,7 +49,7 @@ onMounted(() => {
   </div>
 </template>
 
-<style>
+<style lang="scss">
 .map-input-wrapper {
   width: 100%;
   height: 100%;
@@ -57,24 +57,18 @@ onMounted(() => {
   max-height: 800px;
   position: relative;
   background-color: red;
-}
-.map-container {
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-.pointer-icon {
-  position: absolute;
-  width: 48px;
-  height: 48px;
-  z-index: 2;
-  top: calc(50% - 24px);
-  right: calc(50% - 24px);
-}
-
-.leaflet-popup-content {
-  direction: rtl;
-  text-align: right;
-  font-family: Vazir, Tahoma, sans-serif;
+  .map-container {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  .pointer-icon {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    z-index: 2;
+    top: calc(50% - 24px);
+    right: calc(50% - 24px);
+  }
 }
 </style>
