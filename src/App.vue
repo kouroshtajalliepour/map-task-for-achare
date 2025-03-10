@@ -51,6 +51,9 @@ const userAddress = ref({
 </template>
 
 <style>
+* {
+  direction: rtl;
+}
 .form-map-input {
   width: 500px;
   height: 500px;
