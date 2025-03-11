@@ -1,27 +1,40 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useAddressesStore } from '@/stores/address';
+import { ref } from "vue";
+import { useAddressesStore } from "@/stores/address";
 // * imports
-import Map from '@/components/inputs/map.vue';
-import TextInput from '@/components/inputs/text.vue';
+import Map from "@/components/inputs/map.vue";
+import TextInput from "@/components/inputs/text.vue";
 
 const createAddress = useAddressesStore();
 
 const userAddress = ref({
-  first_name: '',
-  last_name: '',
-  coordinate_mobile: '',
-  coordinate_phone_number: '',
-  address: '',
+  first_name: "",
+  last_name: "",
+  coordinate_mobile: "",
+  coordinate_phone_number: "",
+  address: "",
   latLang: [35.6892, 51.389],
-  gender: '',
+  gender: "",
 });
 
 const showMap = ref(false);
 
-const addAddress = async () => {
-  await createAddress.createAddress(userAddress.value);
-};
+async function addAddress() {
+  try {
+    await createAddress.createAddress({
+      first_name: userAddress.value.first_name,
+      last_name: userAddress.value.last_name,
+      coordinate_mobile: userAddress.value.coordinate_mobile,
+      coordinate_phone_number: userAddress.value.coordinate_phone_number,
+      address: userAddress.value.address,
+      lat: userAddress.value.latLang[0],
+      lang: userAddress.value.latLang[1],
+      gender: userAddress.value.gender,
+    });
+  } catch (error) {
+    console.log("🚀 ~ addAddress ~ error:", error);
+  }
+}
 </script>
 
 <template>
