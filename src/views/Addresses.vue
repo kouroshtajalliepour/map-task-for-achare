@@ -25,14 +25,14 @@ onMounted(async () => {
     <div v-if="addresses" class="addresses-page-content">
       <h1 class="page-title">آدرس ها و مشخصات</h1>
       <AddressCard
-        v-for="userData in addresses"
-        :key="userData.id"
-        :first_name="userData.first_name"
-        :last_name="userData.last_name"
-        :gender="userData.gender"
-        :mobile_number="userData.coordinate_mobile"
-        :phone_number="userData.coordinate_phone_number"
-        :address="userData.address"
+        v-for="address in addresses"
+        :key="address.id"
+        :first_name="address.first_name"
+        :last_name="address.last_name"
+        :gender="address.gender"
+        :mobile_number="address.coordinate_mobile"
+        :phone_number="address.coordinate_phone_number"
+        :address="address.address"
         class="user-data-card"
       />
     </div>
