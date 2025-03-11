@@ -92,6 +92,12 @@ const props = defineProps({
     font-weight: 700;
     font-size: 14px;
     color: $text-color;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 .address-wrapper {
@@ -100,6 +106,7 @@ const props = defineProps({
   align-items: flex-start;
   border-top: 1px solid #e0e0e0;
   padding-top: 12px;
+  width: 100%;
   .title {
     margin-bottom: 10px;
   }
