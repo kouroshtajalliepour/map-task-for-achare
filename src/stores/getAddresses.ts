@@ -21,6 +21,7 @@ export const useAddressesStore = defineStore('addresses', () => {
       console.log('Fetched addresses:', addresses.value);
     } catch (err) {
       console.error(err);
+      // * sanitize error response err.response._data.message
     }
   };
 
