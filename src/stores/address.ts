@@ -15,7 +15,7 @@ type ICreateAddress = {
 export const useAddressesStore = defineStore('addresses', () => {
   const addresses = ref([]);
 
-  const createAddress = async ({
+  async function createAddress  ({
     first_name,
     last_name,
     coordinate_mobile,
@@ -24,7 +24,7 @@ export const useAddressesStore = defineStore('addresses', () => {
     lat,
     lang,
     gender,
-  }: ICreateAddress) => {
+  }: ICreateAddress) {
     try {
       const response = await fetch(
         'https://stage.achareh.ir/api/karfarmas/address',
@@ -49,11 +49,13 @@ export const useAddressesStore = defineStore('addresses', () => {
       const result = await response.json();
       console.log(result);
     } catch (error) {
+      // * sanitize error response err.response._data.message
       throw error;
     }
   };
-  const fetchAddresses = async () => {
+  async function fetchAddresses (){
     try {
+      console.log('testt')
       const response = await fetch(
         'https://stage.achareh.ir/api/karfarmas/address',
         {
@@ -66,10 +68,8 @@ export const useAddressesStore = defineStore('addresses', () => {
       );
       const data = await response.json();
       addresses.value = data;
-      console.log('Fetched addresses:', addresses.value);
     } catch (error) {
       throw error;
-      // * sanitize error response err.response._data.message
     }
   };
 
