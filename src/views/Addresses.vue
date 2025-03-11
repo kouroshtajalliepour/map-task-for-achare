@@ -1,5 +1,5 @@
 <script setup>
-import { useAddressesStore } from '@/stores/getAddresses';
+import { useAddressesStore } from '@/stores/address';
 import { onMounted } from 'vue';
 
 const addressesStore = useAddressesStore();

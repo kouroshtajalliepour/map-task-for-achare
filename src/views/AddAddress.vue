@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-
+import { useAddressesStore } from '@/stores/address';
 // * imports
 import Map from '@/components/inputs/map.vue';
 import TextInput from '@/components/inputs/text.vue';
+
+const createAddress = useAddressesStore();
 
 const userAddress = ref({
   first_name: '',
@@ -16,19 +18,20 @@ const userAddress = ref({
 });
 
 const showMap = ref(false);
+
+const addAddress = async () => {
+  await createAddress.createAddress(userAddress.value);
+};
 </script>
 
 <template>
   <div>
     <ClientOnly>
-      <Map
-        v-if="showMap"
-        class="form-map-input"
-        v-model="userAddress.latLang"
-      />
+      <Map class="form-map-input" v-model="userAddress.latLang" />
     </ClientOnly>
 
     <div>
+      <label for="first_name">نام</label>
       <TextInput
         type="text"
         id="first_name"
@@ -36,6 +39,7 @@ const showMap = ref(false);
         inputmode="text"
         v-model="userAddress.first_name"
       />
+      <label for="last_name">نام خانوادگی</label>
       <TextInput
         type="text"
         id="last_name"
@@ -52,7 +56,36 @@ const showMap = ref(false);
         inputmode="tel"
         v-model="userAddress.coordinate_mobile"
       />
+      <label for="phone_number">خونه</label>
+      <TextInput
+        type="number"
+        dir="ltr"
+        id="telephone_number"
+        autocomplete="tel"
+        inputmode="tel"
+        v-model="userAddress.coordinate_phone_number"
+      />
+      <label for="phone_number">آدرس</label>
+      <TextInput
+        type="text"
+        dir="ltr"
+        id="address"
+        autocomplete="address-line1"
+        inputmode="text"
+        v-model="userAddress.address"
+      />
+      <div class="radio_gender">
+        <label>
+          <input value="male" type="radio" v-model="userAddress.gender" />
+          مرد
+        </label>
+        <label>
+          <input value="female" type="radio" v-model="userAddress.gender" />
+          زن
+        </label>
+      </div>
     </div>
+    <button @click="addAddress">bezan bereeeeee</button>
   </div>
 </template>
 
@@ -61,7 +94,7 @@ const showMap = ref(false);
   direction: rtl;
 }
 .form-map-input {
-  width: 500px;
-  height: 500px;
+  width: 200px;
+  height: 200px;
 }
 </style>
