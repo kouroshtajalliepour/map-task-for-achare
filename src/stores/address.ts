@@ -67,7 +67,7 @@ export const useAddressesStore = defineStore('addresses', () => {
         }
       );
       const data = await response.json();
-      addresses.value = data.split(0, 20);
+      addresses.value = data.splice(0, 20);
       console.log("🚀 ~ fetchAddresses ~ addresses.value:", addresses.value)
     } catch (error) {
       throw error;
