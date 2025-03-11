@@ -1,21 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useAddressesStore } from '@/stores/address';
+import { ref } from "vue";
+import { useAddressesStore } from "@/stores/address";
 // * imports
-import Map from '@/components/inputs/map.vue';
-import TextInput from '@/components/inputs/text.vue';
-import Check from '@/components/icons/check.vue';
+import Map from "@/components/inputs/map.vue";
+import TextInput from "@/components/inputs/text.vue";
+import Check from "@/components/icons/check.vue";
 
 const createAddress = useAddressesStore();
 
 const userAddress = ref({
-  first_name: '',
-  last_name: '',
-  coordinate_mobile: '',
-  coordinate_phone_number: '',
-  address: '',
+  first_name: "",
+  last_name: "",
+  coordinate_mobile: "",
+  coordinate_phone_number: "",
+  address: "",
   latLang: [35.6892, 51.389],
-  gender: '',
+  gender: "",
+});
+const errors = ref({
+  first_name: "",
+  last_name: "",
+  coordinate_mobile: "",
+  coordinate_phone_number: "",
+  address: "",
+  latLang: "",
+  gender: "",
 });
 
 const showMap = ref(false);
@@ -33,25 +42,32 @@ async function addAddress() {
       gender: userAddress.value.gender,
     });
   } catch (error) {
-    console.log('🚀 ~ addAddress ~ error:', error);
+    console.log("🚀 ~ addAddress ~ error:", error);
   }
 }
+
+function testValidator(target: string) {
+  console.log("s;dflka;sldkf;");
+  throw new Error("flsdkjsfld");
+}
+const err = ref("");
 </script>
 
 <template>
   <div>
-    <ClientOnly>
-      <Map class="form-map-input" v-model="userAddress.latLang" />
-    </ClientOnly>
+    <Map class="form-map-input" v-model="userAddress.latLang" />
 
     <div>
       <label for="first_name">نام</label>
+      error test : {{ err }}
       <TextInput
         type="text"
         id="first_name"
         autocomplete="given-name"
+        :validator="testValidator"
         inputmode="text"
         v-model="userAddress.first_name"
+        :inputError="err"
       />
       <label for="last_name">نام خانوادگی</label>
       <TextInput
@@ -105,15 +121,13 @@ async function addAddress() {
         <Check />
         <p>اطلاعات شما با موفقیت ثبت شد</p>
       </div>
-      <router-link class="see-info-button" to="/addresses"
-        >مشاهده اطلاعات</router-link
-      >
+      <router-link class="see-info-button" to="/addresses">مشاهده اطلاعات</router-link>
     </div>
   </div>
 </template>
 
 <style lang="scss">
-@import '@/assets/styles/global.scss';
+@import "@/assets/styles/global.scss";
 .form-map-input {
   width: 200px;
   height: 200px;

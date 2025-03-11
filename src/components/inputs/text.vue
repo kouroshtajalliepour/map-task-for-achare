@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-// * props and emits
+// * types
 type IAutocomplete =
   | "on"
   | "off"
@@ -53,12 +53,14 @@ type IAutocomplete =
   | "photo"
   | "one-time-code";
 
+// * props and emits
 const props = defineProps<{
   modelValue?: string | number;
-  delay?: number;
   placeholder?: string;
   id?: string;
   autocomplete?: IAutocomplete;
+  inputError?: string;
+  validator?: any;
   inputmode?:
     | "text"
     | "search"
@@ -71,7 +73,7 @@ const props = defineProps<{
   dir?: "ltr" | "rtl";
   type?: "number" | "text";
 }>();
-const emit = defineEmits(["update:modelValue", "loading"]);
+const emit = defineEmits(["update:modelValue", "update:inputError"]);
 
 // * functions
 function sanitizeNumber(e: any) {
@@ -103,17 +105,18 @@ function handleInput(e: any) {
     sanitizeNumber(e);
   }
 
-  function updateValue() {
+  async function updateValue() {
     try {
-      emit("update:modelValue", e.target.value);
-    } catch (error: any) {}
+      await props.validator(e.target.value);
+    } catch (error: any) {
+      emit("update:inputError", error.message);
+    }
   }
-  if (props.delay) {
-    clearTimeout(updateValueTimeOut);
-    updateValueTimeOut = setTimeout(updateValue, 1000);
-  } else {
-    emit("update:modelValue", e.target.value);
-  }
+
+  emit("update:inputError", "");
+  emit("update:modelValue", e.target.value);
+  clearTimeout(updateValueTimeOut);
+  updateValueTimeOut = setTimeout(updateValue, 1000);
 }
 </script>
 
@@ -121,7 +124,7 @@ function handleInput(e: any) {
   <div :class="['text-input-wrapper', dir ? dir : '']">
     <input
       :value="modelValue?.toString()"
-      :class="['text-input', !delay ? 'no-delay-input' : '']"
+      :class="['text-input']"
       :inputmode="inputmode ? inputmode : 'text'"
       :id="id"
       type="text"
@@ -148,10 +151,6 @@ function handleInput(e: any) {
     outline: none;
     &:focus {
       border: 1px solid red;
-    }
-    &.no-delay-input {
-      padding: 5px 16px;
-      font-size: 0.9em;
     }
   }
   &.rtl {

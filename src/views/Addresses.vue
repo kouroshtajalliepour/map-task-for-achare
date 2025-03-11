@@ -1,27 +1,31 @@
-<script setup>
-import { useAddressesStore } from '@/stores/address';
-import { onMounted } from 'vue';
-
-import AddressCard from '@/components/addressCard.vue';
+<script setup lang="ts">
+// * imports
+import { storeToRefs } from "pinia";
+import { onMounted } from "vue";
+import { useAddressesStore } from "@/stores/address";
+import AddressCard from "@/components/addressCard.vue";
 
 const addressesStore = useAddressesStore();
-const registeredAddresses = addressesStore.$state.addresses;
+
+const { addresses } = storeToRefs(addressesStore);
+
 onMounted(async () => {
   try {
     await addressesStore.fetchAddresses();
-    console.log(registeredAddresses);
+    console.log(addresses);
   } catch (error) {
-    console.log('🚀 ~ onMounted ~ error:', error);
+    console.log("🚀 ~ onMounted ~ error:", error);
   }
 });
 </script>
 
 <template>
   <div class="addresses-page-wrapper">
-    <div v-if="registeredAddresses" class="addresses-page-content">
+    <pre>{{ addresses }}</pre>
+    <div v-if="addresses" class="addresses-page-content">
       <h1 class="page-title">آدرس ها و مشخصات</h1>
       <AddressCard
-        v-for="userData in registeredAddresses"
+        v-for="userData in addresses"
         :key="userData.id"
         :first_name="userData.first_name"
         :last_name="userData.last_name"
