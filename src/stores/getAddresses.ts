@@ -16,11 +16,6 @@ export const useAddressesStore = defineStore('addresses', () => {
           },
         }
       );
-
-      if (!response.ok) {
-        throw new Error(`HTTP Error: ${response.status}`);
-      }
-
       const data = await response.json();
       addresses.value = data;
       console.log('Fetched addresses:', addresses.value);
