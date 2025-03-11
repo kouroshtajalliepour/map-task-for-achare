@@ -21,7 +21,6 @@ onMounted(async () => {
 
 <template>
   <div class="addresses-page-wrapper">
-    <pre>{{ addresses }}</pre>
     <div v-if="addresses" class="addresses-page-content">
       <h1 class="page-title">آدرس ها و مشخصات</h1>
       <AddressCard
