@@ -34,4 +34,14 @@ import Logo from '@/components/icons/logo.vue';
     color: $text-color;
   }
 }
+@media only screen and (min-width: 992px) {
+  .navigation-bar {
+    padding: 18px 80px;
+    margin-bottom: 50px;
+    a {
+      font-size: 14px;
+      margin-right: 26px;
+    }
+  }
+}
 </style>
