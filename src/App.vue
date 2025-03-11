@@ -23,6 +23,7 @@ import Logo from '@/components/icons/logo.vue';
   background-color: #ffffff;
   padding: 12px 16px;
   margin-bottom: 24px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
   a {
     font-weight: 700;
     margin-right: 20px;
