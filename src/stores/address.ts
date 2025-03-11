@@ -509,28 +509,28 @@ export const useAddressesStore = defineStore('addresses', () => {
     gender,
   }: ICreateAddress) {
     try {
-      const response = await fetch(
-        'https://stage.achareh.ir/api/karfarmas/address',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Basic MDk4MjIyMjIyMjI6U2FuYTEyMzQ1Njc4',
-          },
-          body: JSON.stringify({
-            first_name,
-            last_name,
-            coordinate_mobile,
-            coordinate_phone_number,
-            address,
-            lat,
-            lang,
-            gender,
-          }),
-        }
-      );
-      const result = await response.json();
-      console.log(result);
+      // const response = await fetch(
+      //   'https://stage.achareh.ir/api/karfarmas/address',
+      //   {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //       Authorization: 'Basic MDk4MjIyMjIyMjI6U2FuYTEyMzQ1Njc4',
+      //     },
+      //     body: JSON.stringify({
+      //       first_name,
+      //       last_name,
+      //       coordinate_mobile,
+      //       coordinate_phone_number,
+      //       address,
+      //       lat,
+      //       lang,
+      //       gender,
+      //     }),
+      //   }
+      // );
+      // const result = await response.json();
+      // console.log(result);
     } catch (error) {
       // * sanitize error response err.response._data.message
       throw error;
