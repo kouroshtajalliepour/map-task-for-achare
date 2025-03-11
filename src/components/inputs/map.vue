@@ -43,7 +43,6 @@ onMounted(() => {
 
 <template>
   <div class="map-input-wrapper">
-    <div class="skeleton-loader"></div>
     <div ref="mapContainer" class="map-container"></div>
     <Pointer class="pointer-icon" />
   </div>

@@ -497,6 +497,7 @@ const mockedAddresses = [
 
 export const useAddressesStore = defineStore('addresses', () => {
   const addresses = ref([]);
+  const loading = ref(false);
 
   async function createAddress  ({
     first_name,
@@ -538,28 +539,31 @@ export const useAddressesStore = defineStore('addresses', () => {
   };
   async function fetchAddresses (){
     try {
-      console.log('testt')
-      // const response = await fetch(
-      //   'https://stage.achareh.ir/api/karfarmas/address',
-      //   {
-      //     method: 'GET',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //       Authorization: 'Basic MDk4MjIyMjIyMjI6U2FuYTEyMzQ1Njc4',
-      //     },
-      //   }
-      // );
-      // const data = await response.json();
-      // addresses.value = data
-      addresses.value = mockedAddresses
-      console.log("🚀 ~ fetchAddresses ~ addresses.value:", addresses.value)
+      loading.value = true
+      const response = await fetch(
+        'https://stage.achareh.ir/api/karfarmas/address',
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Basic MDk4MjIyMjIyMjI6U2FuYTEyMzQ1Njc4',
+          },
+        }
+      );
+      const data = await response.json();
+      addresses.value = data
+      // addresses.value = mockedAddresses
+      // console.log("🚀 ~ fetchAddresses ~ addresses.value:", addresses.value)
     } catch (error) {
       throw error;
+    }finally{
+      loading.value = false
     }
   };
 
   return {
     addresses,
+    loading,
     fetchAddresses,
     createAddress,
   };

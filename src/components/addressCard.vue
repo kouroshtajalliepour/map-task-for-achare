@@ -1,141 +1,161 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps } from "vue";
 
-const props = defineProps({
-  first_name: {
-    type: String,
-    default: 'علی',
-  },
-  last_name: {
-    type: String,
-    default: 'ارشدی',
-  },
-  gender: {
-    type: String,
-    default: 'male',
-  },
-  mobile_number: {
-    type: String,
-    default: '-',
-  },
-  phone_number: {
-    type: String,
-    default: '-',
-  },
-  address: {
-    type: String,
-    default: '-',
-  },
-});
+const props = defineProps<{
+  cartData?: {
+    first_name: string;
+    last_name: string;
+    gender: string;
+    mobile_number: string;
+    phone_number: string;
+    address: string;
+  };
+  loading?: boolean;
+}>();
+
+function sanitizeGender(gender: string) {
+  switch (gender) {
+    case "male":
+      return "آقا";
+      break;
+    case "female":
+      return "خانم";
+      break;
+
+    default:
+      return "";
+      break;
+  }
+}
 </script>
 
 <template>
-  <div class="address-card-wrapper">
-    <div class="name-wrapper-mobile title-data-wrapper">
-      <p class="title">نام و نام خانوادگی</p>
-      <p class="data">{{ first_name }} {{ last_name }}</p>
-    </div>
-    <div class="first-name-wrapper-desktop title-data-wrapper">
-      <p class="title">نام</p>
-      <p class="data">{{ first_name }}</p>
-    </div>
-    <div class="last-name-wrapper-desktop title-data-wrapper">
-      <p class="title">نام خانوادگی</p>
-      <p class="data">{{ last_name }}</p>
-    </div>
-    <div class="gender-wrapper title-data-wrapper">
-      <p class="title">جنسیت</p>
-      <p class="data">{{ gender === 'female' ? 'خانوم' : 'آقا' }}</p>
-    </div>
-    <div class="mobile-number-wrapper title-data-wrapper">
-      <p class="title">شماره تلفن همراه</p>
-      <p class="data">{{ mobile_number }}</p>
-    </div>
-    <div class="phone-number-wrapper title-data-wrapper">
-      <p class="title">شماره تلفن ثابت</p>
-      <p class="data">{{ phone_number }}</p>
-    </div>
-    <div class="address-wrapper title-data-wrapper">
-      <p class="title">آدرس</p>
-      <p class="data">
-        {{ address }}
+  <li class="address-cart-wrapper">
+    <div class="address-cart-data hide-in-desktop">
+      <p class="address-cart-data-title">نام و نام خانوادگی</p>
+      <p :class="['address-cart-data-value', loading ? 'skeleton-loader' : '']">
+        {{ cartData?.first_name }} {{ cartData?.last_name }}
       </p>
     </div>
-  </div>
+    <div class="address-cart-data hide-in-mobile">
+      <p class="address-cart-data-title">نام</p>
+      <p :class="['address-cart-data-value', loading ? 'skeleton-loader' : '']">
+        {{ cartData?.first_name }}
+      </p>
+    </div>
+    <div class="address-cart-data hide-in-mobile">
+      <p class="address-cart-data-title">نام خانوادگی</p>
+      <p :class="['address-cart-data-value', loading ? 'skeleton-loader' : '']">
+        {{ cartData?.last_name }}
+      </p>
+    </div>
+    <div class="address-cart-data">
+      <p class="address-cart-data-title">شماره تلفن</p>
+      <p :class="['address-cart-data-value', loading ? 'skeleton-loader' : '']">
+        {{ cartData?.phone_number }}
+      </p>
+    </div>
+    <div class="address-cart-data">
+      <p class="address-cart-data-title">شماره تلفن</p>
+      <p :class="['address-cart-data-value', loading ? 'skeleton-loader' : '']">
+        {{ cartData?.mobile_number }}
+      </p>
+    </div>
+    <div class="address-cart-data">
+      <p class="address-cart-data-title">جنسیت</p>
+      <p :class="['address-cart-data-value', loading ? 'skeleton-loader' : '']">
+        {{ sanitizeGender(cartData?.gender?.toLocaleLowerCase()) }}
+      </p>
+    </div>
+    <div class="address-cart-data address-cart-address-wrapper">
+      <p class="address-cart-data-title">آدرس</p>
+      <p :class="['address-cart-data-value', loading ? 'skeleton-loader' : '']">
+        {{ cartData?.address }}
+      </p>
+    </div>
+  </li>
 </template>
 
 <style lang="scss">
-@import '@/assets/styles/global.scss';
-
-.address-card-wrapper {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  flex-direction: column;
-  padding: 20px 16px;
-  background-color: #ffffff;
-  border: solid 1px #edf0f2;
-  border-radius: 4px;
-}
-.title-data-wrapper {
-  display: flex;
+.skeleton-loader {
   width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-  .title {
-    font-weight: 400;
-    font-size: 14px;
-    color: $main-gray;
-  }
-  .data {
-    font-weight: 700;
-    font-size: 14px;
-    color: $text-color;
-  }
+  // height: 15px;
+  // display: block;
+  background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0) 80%
+    ),
+    lightgray;
+  background-repeat: repeat-y;
+  background-size: 50px 500px;
+  background-position: 0 0;
+  animation: shine 1s infinite;
 }
-.address-wrapper {
+
+.address-cart-wrapper {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  border-top: 1px solid #e0e0e0;
-  padding-top: 12px;
-  .title {
-    margin-bottom: 10px;
-  }
-}
-.first-name-wrapper-desktop {
-  display: none;
-}
-.last-name-wrapper-desktop {
-  display: none;
-}
-@media only screen and (min-width: 992px) {
-  .address-card-wrapper {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-  .title-data-wrapper {
-    flex-basis: calc(100% / 3);
-    flex-direction: column;
-    align-items: flex-start;
-    width: auto;
-    .title {
-      margin-bottom: 14px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  background-color: white;
+
+  .address-cart-data {
+    padding: 16px;
+    flex-basis: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+
+    .address-cart-data-title,
+    .address-cart-data-value {
+      height: 22px;
+      font-size: 14px;
+      &.skeleton-loader {
+        width: 115px;
+      }
+    }
+    .address-cart-data-title {
+      color: #9b9b9b;
+    }
+    &.hide-in-mobile {
+      display: none;
+    }
+    &.address-cart-address-wrapper {
+      border-top: 1px solid #e0e0e0;
+      display: block;
+      .address-cart-data-value {
+        margin-top: 16px;
+      }
     }
   }
-  .address-wrapper {
-    border: none;
-    padding-top: 0;
-  }
-  .name-wrapper-mobile {
-    display: none;
-  }
-  .first-name-wrapper-desktop {
-    display: flex;
-  }
-  .last-name-wrapper-desktop {
-    display: flex;
+}
+@media only screen and (min-width: 992px) {
+  .address-cart-wrapper {
+    .address-cart-data {
+      flex-basis: calc(25%);
+      flex-direction: column;
+      .address-cart-data-title {
+        margin-bottom: 14px;
+      }
+      &:nth-child(3n + 1) {
+        flex-basis: calc(50%);
+      }
+      &.hide-in-mobile {
+        display: flex;
+      }
+      &.hide-in-desktop {
+        display: none;
+      }
+      &.address-cart-address-wrapper {
+        border-top: none;
+        display: flex;
+        .address-cart-data-value {
+          margin-top: 0px;
+        }
+      }
+    }
   }
 }
 </style>

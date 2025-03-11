@@ -7,7 +7,7 @@ import AddressCard from "@/components/addressCard.vue";
 
 const addressesStore = useAddressesStore();
 
-const { addresses } = storeToRefs(addressesStore);
+const { addresses, loading } = storeToRefs(addressesStore);
 
 onMounted(async () => {
   try {
@@ -21,59 +21,22 @@ onMounted(async () => {
 
 <template>
   <div class="addresses-page-wrapper">
-    <div v-if="addresses" class="addresses-page-content">
-      <h1 class="page-title">آدرس ها و مشخصات</h1>
-      <AddressCard
-        v-for="address in addresses"
-        :key="address.id"
-        :first_name="address.first_name"
-        :last_name="address.last_name"
-        :gender="address.gender"
-        :mobile_number="address.coordinate_mobile"
-        :phone_number="address.coordinate_phone_number"
-        :address="address.address"
-        class="user-data-card"
-      />
-    </div>
+    <h1 class="page-title">آدرس ها و مشخصات</h1>
+    <ul class="addresses-wrapper">
+      <AddressCard v-if="loading" v-for="i in 20" loading />
+      <AddressCard v-else v-for="address in addresses" :cartData="address" />
+    </ul>
   </div>
 </template>
 
 <style lang="scss">
 .addresses-page-wrapper {
   padding: 0px 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  h1 {
-    justify-self: flex-start;
-  }
-}
-.addresses-page-content {
-  min-width: 80%;
-  .page-title {
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 32px;
-    margin-bottom: 10px;
-  }
-}
-.user-data-card {
-  margin-bottom: 12px;
-}
+  max-width: 806px;
+  margin: auto;
 
-@media only screen and (min-width: 768px) {
-  .addresses-page-content {
-    min-width: 70%;
-  }
-}
-@media only screen and (min-width: 992px) {
-  .addresses-page-content {
-    min-width: 65%;
-    max-width: 65%;
-  }
-  .user-data-card {
-    margin-bottom: 20px;
+  .addresses-wrapper {
+    list-style: none;
   }
 }
 </style>
