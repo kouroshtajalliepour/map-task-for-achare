@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { useAddressesStore } from "@/stores/address";
+import { ref } from 'vue';
+import { useAddressesStore } from '@/stores/address';
 // * imports
-import Map from "@/components/inputs/map.vue";
-import TextInput from "@/components/inputs/text.vue";
+import Map from '@/components/inputs/map.vue';
+import TextInput from '@/components/inputs/text.vue';
+import Check from '@/components/icons/check.vue';
 
 const createAddress = useAddressesStore();
 
 const userAddress = ref({
-  first_name: "",
-  last_name: "",
-  coordinate_mobile: "",
-  coordinate_phone_number: "",
-  address: "",
+  first_name: '',
+  last_name: '',
+  coordinate_mobile: '',
+  coordinate_phone_number: '',
+  address: '',
   latLang: [35.6892, 51.389],
-  gender: "",
+  gender: '',
 });
 
 const showMap = ref(false);
@@ -32,7 +33,7 @@ async function addAddress() {
       gender: userAddress.value.gender,
     });
   } catch (error) {
-    console.log("🚀 ~ addAddress ~ error:", error);
+    console.log('🚀 ~ addAddress ~ error:', error);
   }
 }
 </script>
@@ -99,15 +100,50 @@ async function addAddress() {
       </div>
     </div>
     <button @click="addAddress">bezan bereeeeee</button>
+    <div class="address-added-wrapper">
+      <div class="success-message-wrapper">
+        <Check />
+        <p>اطلاعات شما با موفقیت ثبت شد</p>
+      </div>
+      <router-link class="see-info-button" to="/addresses"
+        >مشاهده اطلاعات</router-link
+      >
+    </div>
   </div>
 </template>
 
 <style lang="scss">
-* {
-  direction: rtl;
-}
+@import '@/assets/styles/global.scss';
 .form-map-input {
   width: 200px;
   height: 200px;
+}
+.address-added-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 114px;
+}
+.success-message-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40px;
+  p {
+    margin-top: 14px;
+  }
+}
+.see-info-button {
+  border: 1.5px solid $Primary-color;
+  border-radius: 4px;
+  width: 340px;
+  text-align: center;
+  padding: 12px 0px;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  color: $Primary-color;
 }
 </style>
