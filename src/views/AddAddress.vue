@@ -1,11 +1,11 @@
 <script setup lang="ts">
 // * imports
-import { ref } from "vue";
-import { useAddressesStore } from "@/stores/address";
-import Map from "@/components/inputs/map.vue";
-import TextInput from "@/components/inputs/text.vue";
-import Check from "@/components/icons/check.vue";
-import useValidators from "@/composables/useValidators";
+import { ref } from 'vue';
+import { useAddressesStore } from '@/stores/address';
+import Map from '@/components/inputs/map.vue';
+import TextInput from '@/components/inputs/text.vue';
+import Check from '@/components/icons/check.vue';
+import useValidators from '@/composables/useValidators';
 
 // * composables
 const createAddress = useAddressesStore();
@@ -13,13 +13,13 @@ const { validateString, validatePhoneNumber } = useValidators();
 
 // * page data
 const userAddress = ref({
-  first_name: "",
-  last_name: "",
-  coordinate_mobile: "",
-  coordinate_phone_number: "",
-  address: "",
+  first_name: '',
+  last_name: '',
+  coordinate_mobile: '',
+  coordinate_phone_number: '',
+  address: '',
   latLang: [35.6892, 51.389],
-  gender: "",
+  gender: '',
 });
 const pageStatus = ref(0);
 
@@ -28,11 +28,10 @@ function navigateToMap() {
     !userAddress.value.first_name ||
     !userAddress.value.last_name ||
     !userAddress.value.coordinate_mobile ||
-    !userAddress.value.coordinate_phone_number ||
     !userAddress.value.address ||
     !userAddress.value.gender
   ) {
-    alert("تمامی فیلد ها ضروری اند");
+    alert('لطفا فیلد های اجباری را تکمیل کنید');
     return;
   }
   pageStatus.value++;
@@ -52,18 +51,20 @@ async function addAddress() {
     });
     pageStatus.value++;
   } catch (error) {
-    console.log("🚀 ~ addAddress ~ error:", error);
+    console.log('🚀 ~ addAddress ~ error:', error);
   }
 }
 </script>
 
 <template>
   <div class="create-address-page-wrapper">
+    <h3 class="add-address page-heading">ثبت آدرس</h3>
     <form
       v-if="pageStatus === 0"
       class="create-address-page form-page"
       @submit="navigateToMap"
     >
+      <h6 class="form-heading">لطفا مشخصات و آدرس خود را وارد کنید</h6>
       <label for="first_name">نام</label>
       <TextInput
         type="text"
@@ -82,20 +83,18 @@ async function addAddress() {
         inputmode="text"
         v-model="userAddress.last_name"
       />
-      <label for="phone_number">شماره</label>
+      <label for="phone_number">شماره تلفن همراه</label>
       <TextInput
         type="number"
-        dir="ltr"
         id="phone_number"
         autocomplete="tel"
         :validator="validatePhoneNumber"
         inputmode="tel"
         v-model="userAddress.coordinate_mobile"
       />
-      <label for="phone_number">خونه</label>
+      <label for="phone_number">شماره تلفن ثابت (اختیاری)</label>
       <TextInput
         type="number"
-        dir="ltr"
         id="telephone_number"
         :validator="validatePhoneNumber"
         autocomplete="tel"
@@ -105,7 +104,6 @@ async function addAddress() {
       <label for="phone_number">آدرس</label>
       <TextInput
         type="text"
-        dir="ltr"
         id="address"
         :validator="validateString"
         autocomplete="address-line1"
@@ -134,14 +132,35 @@ async function addAddress() {
           <Check />
           <p class="success-message-context">اطلاعات شما با موفقیت ثبت شد</p>
         </div>
-        <router-link class="see-info-button" to="/addresses">مشاهده اطلاعات</router-link>
+        <router-link class="see-info-button" to="/addresses"
+          >مشاهده اطلاعات</router-link
+        >
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss">
-@import "@/assets/styles/global.scss";
+@import '@/assets/styles/global.scss';
+.create-address-page-wrapper {
+  padding: 0px 16px;
+  max-width: 806px;
+  margin: auto;
+  .page-heading {
+    font-size: 16px;
+    color: #37474f;
+    margin-bottom: 10px;
+  }
+  .create-address-page {
+    padding: 16px;
+    background-color: white;
+    .form-heading {
+      font-size: 12px;
+      color: #37474f;
+      margin-bottom: 16px;
+    }
+  }
+}
 .form-map-input {
   width: 200px;
   height: 200px;
