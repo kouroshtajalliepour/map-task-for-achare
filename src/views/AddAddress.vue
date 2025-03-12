@@ -9,7 +9,7 @@ import useValidators from "@/composables/useValidators";
 
 // * composables
 const createAddress = useAddressesStore();
-const { validateString, validatePhoneNumber, validateAddress } = useValidators();
+const { validateString, validatePhoneNumber } = useValidators();
 
 // * page data
 const userAddress = ref({
@@ -21,7 +21,22 @@ const userAddress = ref({
   latLang: [35.6892, 51.389],
   gender: "",
 });
-const pageStatus = ref("initial");
+const pageStatus = ref(0);
+
+function navigateToMap() {
+  if (
+    !userAddress.value.first_name ||
+    !userAddress.value.last_name ||
+    !userAddress.value.coordinate_mobile ||
+    !userAddress.value.coordinate_phone_number ||
+    !userAddress.value.address ||
+    !userAddress.value.gender
+  ) {
+    alert("تمامی فیلد ها ضروری اند");
+    return;
+  }
+  pageStatus.value++;
+}
 
 async function addAddress() {
   try {
@@ -35,6 +50,7 @@ async function addAddress() {
       lang: userAddress.value.latLang[1],
       gender: userAddress.value.gender,
     });
+    pageStatus.value++;
   } catch (error) {
     console.log("🚀 ~ addAddress ~ error:", error);
   }
@@ -42,10 +58,12 @@ async function addAddress() {
 </script>
 
 <template>
-  <div>
-    <Map class="form-map-input" v-model="userAddress.latLang" />
-
-    <div>
+  <div class="create-address-page-wrapper">
+    <form
+      v-if="pageStatus === 0"
+      class="create-address-page form-page"
+      @submit="navigateToMap"
+    >
       <label for="first_name">نام</label>
       <TextInput
         type="text"
@@ -60,6 +78,7 @@ async function addAddress() {
         type="text"
         id="last_name"
         autocomplete="family-name"
+        :validator="validateString"
         inputmode="text"
         v-model="userAddress.last_name"
       />
@@ -69,6 +88,7 @@ async function addAddress() {
         dir="ltr"
         id="phone_number"
         autocomplete="tel"
+        :validator="validatePhoneNumber"
         inputmode="tel"
         v-model="userAddress.coordinate_mobile"
       />
@@ -77,6 +97,7 @@ async function addAddress() {
         type="number"
         dir="ltr"
         id="telephone_number"
+        :validator="validatePhoneNumber"
         autocomplete="tel"
         inputmode="tel"
         v-model="userAddress.coordinate_phone_number"
@@ -86,6 +107,7 @@ async function addAddress() {
         type="text"
         dir="ltr"
         id="address"
+        :validator="validateString"
         autocomplete="address-line1"
         inputmode="text"
         v-model="userAddress.address"
@@ -100,14 +122,20 @@ async function addAddress() {
           زن
         </label>
       </div>
+      <input type="submit" value="submit" />
+    </form>
+    <div v-if="pageStatus === 1" class="create-address-page map-page">
+      <Map class="form-map-input" v-model="userAddress.latLang" />
+      <button @click="addAddress" type="button" name="next-page">submit</button>
     </div>
-    <button @click="addAddress">bezan bereeeeee</button>
-    <div class="address-added-wrapper">
-      <div class="success-message-wrapper">
-        <Check />
-        <p>اطلاعات شما با موفقیت ثبت شد</p>
+    <div v-if="pageStatus === 2" class="create-address-page success-page">
+      <div class="address-added-wrapper">
+        <div class="success-message-wrapper">
+          <Check />
+          <p class="success-message-context">اطلاعات شما با موفقیت ثبت شد</p>
+        </div>
+        <router-link class="see-info-button" to="/addresses">مشاهده اطلاعات</router-link>
       </div>
-      <router-link class="see-info-button" to="/addresses">مشاهده اطلاعات</router-link>
     </div>
   </div>
 </template>
@@ -124,26 +152,26 @@ async function addAddress() {
   align-items: center;
   justify-content: center;
   margin-top: 114px;
-}
-.success-message-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 40px;
-  p {
-    margin-top: 14px;
+  .success-message-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+    .success-message-context {
+      margin-top: 14px;
+    }
+    .see-info-button {
+      border: 1.5px solid $Primary-color;
+      border-radius: 4px;
+      width: 340px;
+      text-align: center;
+      padding: 12px 0px;
+      font-weight: 700;
+      font-size: 16px;
+      text-decoration: none;
+      color: $Primary-color;
+    }
   }
-}
-.see-info-button {
-  border: 1.5px solid $Primary-color;
-  border-radius: 4px;
-  width: 340px;
-  text-align: center;
-  padding: 12px 0px;
-  font-weight: 700;
-  font-size: 16px;
-  text-decoration: none;
-  color: $Primary-color;
 }
 </style>

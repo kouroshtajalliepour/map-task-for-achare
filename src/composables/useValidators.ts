@@ -6,15 +6,14 @@ export default function useValidators () {
             
         }
     }
-    function validatePhoneNumber (str: string) {
-        
-    }
-    function validateAddress (str: string) {
-        
+    function validatePhoneNumber(str: string) {
+        const phoneRegex = /^0\d{10}$/;
+        if (!phoneRegex.test(str)) {
+            throw new Error("شماره تلفن باید ۱۱ رقم و با ۰ شروع شود");
+        }
     }
     return {
         validateString,
         validatePhoneNumber,
-        validateAddress
     }
 }
