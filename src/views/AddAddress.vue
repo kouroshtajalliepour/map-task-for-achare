@@ -1,11 +1,11 @@
 <script setup lang="ts">
 // * imports
-import { ref } from 'vue';
-import { useAddressesStore } from '@/stores/address';
-import Map from '@/components/inputs/map.vue';
-import TextInput from '@/components/inputs/text.vue';
-import Check from '@/components/icons/check.vue';
-import useValidators from '@/composables/useValidators';
+import { ref } from "vue";
+import { useAddressesStore } from "@/stores/address";
+import Map from "@/components/inputs/map.vue";
+import TextInput from "@/components/inputs/text.vue";
+import Check from "@/components/icons/check.vue";
+import useValidators from "@/composables/useValidators";
 
 // * composables
 const createAddress = useAddressesStore();
@@ -13,13 +13,13 @@ const { validateString, validatePhoneNumber } = useValidators();
 
 // * page data
 const userAddress = ref({
-  first_name: '',
-  last_name: '',
-  coordinate_mobile: '',
-  coordinate_phone_number: '',
-  address: '',
+  first_name: "",
+  last_name: "",
+  coordinate_mobile: "",
+  coordinate_phone_number: "",
+  address: "",
   latLang: [35.6892, 51.389],
-  gender: '',
+  gender: "",
 });
 const pageStatus = ref(0);
 
@@ -31,7 +31,7 @@ function navigateToMap() {
     !userAddress.value.address ||
     !userAddress.value.gender
   ) {
-    alert('لطفا فیلد های اجباری را تکمیل کنید');
+    alert("لطفا فیلد های اجباری را تکمیل کنید");
     return;
   }
   pageStatus.value++;
@@ -51,7 +51,7 @@ async function addAddress() {
     });
     pageStatus.value++;
   } catch (error) {
-    console.log('🚀 ~ addAddress ~ error:', error);
+    console.log("🚀 ~ addAddress ~ error:", error);
   }
 }
 </script>
@@ -65,7 +65,7 @@ async function addAddress() {
       @submit="navigateToMap"
     >
       <h6 class="form-heading">لطفا مشخصات و آدرس خود را وارد کنید</h6>
-      <label for="first_name">نام</label>
+      <label class="text-input-label" for="first_name">نام</label>
       <TextInput
         type="text"
         id="first_name"
@@ -74,7 +74,7 @@ async function addAddress() {
         inputmode="text"
         v-model="userAddress.first_name"
       />
-      <label for="last_name">نام خانوادگی</label>
+      <label class="text-input-label" for="last_name">نام خانوادگی</label>
       <TextInput
         type="text"
         id="last_name"
@@ -83,7 +83,7 @@ async function addAddress() {
         inputmode="text"
         v-model="userAddress.last_name"
       />
-      <label for="phone_number">شماره تلفن همراه</label>
+      <label class="text-input-label" for="phone_number">شماره تلفن همراه</label>
       <TextInput
         type="number"
         id="phone_number"
@@ -92,7 +92,7 @@ async function addAddress() {
         inputmode="tel"
         v-model="userAddress.coordinate_mobile"
       />
-      <label for="phone_number">شماره تلفن ثابت (اختیاری)</label>
+      <label class="text-input-label" for="phone_number">شماره تلفن ثابت (اختیاری)</label>
       <TextInput
         type="number"
         id="telephone_number"
@@ -101,7 +101,7 @@ async function addAddress() {
         inputmode="tel"
         v-model="userAddress.coordinate_phone_number"
       />
-      <label for="phone_number">آدرس</label>
+      <label class="text-input-label" for="phone_number">آدرس</label>
       <TextInput
         type="text"
         id="address"
@@ -132,16 +132,14 @@ async function addAddress() {
           <Check />
           <p class="success-message-context">اطلاعات شما با موفقیت ثبت شد</p>
         </div>
-        <router-link class="see-info-button" to="/addresses"
-          >مشاهده اطلاعات</router-link
-        >
+        <router-link class="see-info-button" to="/addresses">مشاهده اطلاعات</router-link>
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss">
-@import '@/assets/styles/global.scss';
+@import "@/assets/styles/global.scss";
 .create-address-page-wrapper {
   padding: 0px 16px;
   max-width: 806px;
@@ -158,6 +156,11 @@ async function addAddress() {
       font-size: 12px;
       color: #37474f;
       margin-bottom: 16px;
+    }
+    .text-input-label {
+      margin: 10px 0;
+      font-size: 12px;
+      display: block;
     }
   }
 }
