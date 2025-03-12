@@ -65,51 +65,68 @@ async function addAddress() {
       @submit="navigateToMap"
     >
       <h6 class="form-heading">لطفا مشخصات و آدرس خود را وارد کنید</h6>
-      <label class="text-input-label" for="first_name">نام</label>
-      <TextInput
-        type="text"
-        id="first_name"
-        autocomplete="given-name"
-        :validator="validateString"
-        inputmode="text"
-        v-model="userAddress.first_name"
-      />
-      <label class="text-input-label" for="last_name">نام خانوادگی</label>
-      <TextInput
-        type="text"
-        id="last_name"
-        autocomplete="family-name"
-        :validator="validateString"
-        inputmode="text"
-        v-model="userAddress.last_name"
-      />
-      <label class="text-input-label" for="phone_number">شماره تلفن همراه</label>
-      <TextInput
-        type="number"
-        id="phone_number"
-        autocomplete="tel"
-        :validator="validatePhoneNumber"
-        inputmode="tel"
-        v-model="userAddress.coordinate_mobile"
-      />
-      <label class="text-input-label" for="phone_number">شماره تلفن ثابت (اختیاری)</label>
-      <TextInput
-        type="number"
-        id="telephone_number"
-        :validator="validatePhoneNumber"
-        autocomplete="tel"
-        inputmode="tel"
-        v-model="userAddress.coordinate_phone_number"
-      />
-      <label class="text-input-label" for="phone_number">آدرس</label>
-      <TextInput
-        type="text"
-        id="address"
-        :validator="validateString"
-        autocomplete="address-line1"
-        inputmode="text"
-        v-model="userAddress.address"
-      />
+
+      <div class="create-address-page-text-inputs-wrapper">
+        <div class="create-address-text-input-wrapper">
+          <label class="text-input-label" for="first_name">نام</label>
+          <TextInput
+            type="text"
+            id="first_name"
+            autocomplete="given-name"
+            :validator="validateString"
+            inputmode="text"
+            v-model="userAddress.first_name"
+          />
+        </div>
+
+        <div class="create-address-text-input-wrapper">
+          <label class="text-input-label" for="last_name">نام خانوادگی</label>
+          <TextInput
+            type="text"
+            id="last_name"
+            autocomplete="family-name"
+            :validator="validateString"
+            inputmode="text"
+            v-model="userAddress.last_name"
+          />
+        </div>
+        <div class="create-address-text-input-wrapper">
+          <label class="text-input-label" for="phone_number">شماره تلفن همراه</label>
+          <TextInput
+            type="number"
+            id="phone_number"
+            autocomplete="tel"
+            :validator="validatePhoneNumber"
+            inputmode="tel"
+            v-model="userAddress.coordinate_mobile"
+          />
+        </div>
+        <div class="create-address-text-input-wrapper">
+          <label class="text-input-label" for="phone_number"
+            >شماره تلفن ثابت (اختیاری)</label
+          >
+          <TextInput
+            type="number"
+            id="telephone_number"
+            :validator="validatePhoneNumber"
+            autocomplete="tel"
+            inputmode="tel"
+            v-model="userAddress.coordinate_phone_number"
+          />
+        </div>
+        <div class="create-address-text-input-wrapper address-input">
+          <label class="text-input-label" for="phone_number">آدرس</label>
+          <TextInput
+            type="text"
+            id="address"
+            :validator="validateString"
+            autocomplete="address-line1"
+            inputmode="text"
+            v-model="userAddress.address"
+          />
+        </div>
+      </div>
+
       <div class="radio_gender">
         <label>
           <input value="male" type="radio" v-model="userAddress.gender" />
@@ -157,42 +174,67 @@ async function addAddress() {
       color: #37474f;
       margin-bottom: 16px;
     }
-    .text-input-label {
-      margin: 10px 0;
-      font-size: 12px;
-      display: block;
+    &.form-page {
+      .create-address-page-text-inputs-wrapper {
+        .create-address-text-input-wrapper {
+          .text-input-label {
+            margin-bottom: 10px;
+            font-size: 12px;
+            display: block;
+          }
+        }
+      }
     }
   }
-}
-.form-map-input {
-  width: 200px;
-  height: 200px;
-}
-.address-added-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 114px;
-  .success-message-wrapper {
+  .form-map-input {
+    width: 200px;
+    height: 200px;
+  }
+  .address-added-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-bottom: 40px;
-    .success-message-context {
-      margin-top: 14px;
+    margin-top: 114px;
+    .success-message-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 40px;
+      .success-message-context {
+        margin-top: 14px;
+      }
+      .see-info-button {
+        border: 1.5px solid $Primary-color;
+        border-radius: 4px;
+        width: 340px;
+        text-align: center;
+        padding: 12px 0px;
+        font-weight: 700;
+        font-size: 16px;
+        text-decoration: none;
+        color: $Primary-color;
+      }
     }
-    .see-info-button {
-      border: 1.5px solid $Primary-color;
-      border-radius: 4px;
-      width: 340px;
-      text-align: center;
-      padding: 12px 0px;
-      font-weight: 700;
-      font-size: 16px;
-      text-decoration: none;
-      color: $Primary-color;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .create-address-page-wrapper {
+    .create-address-page {
+      &.form-page {
+        .create-address-page-text-inputs-wrapper {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          .create-address-text-input-wrapper {
+            flex-basis: 30%;
+            &.address-input {
+              flex-basis: 65%;
+            }
+          }
+        }
+      }
     }
   }
 }
