@@ -1,13 +1,17 @@
 <script setup lang="ts">
+// * imports
 import { ref } from "vue";
 import { useAddressesStore } from "@/stores/address";
-// * imports
 import Map from "@/components/inputs/map.vue";
 import TextInput from "@/components/inputs/text.vue";
 import Check from "@/components/icons/check.vue";
+import useValidators from "@/composables/useValidators";
 
+// * composables
 const createAddress = useAddressesStore();
+const { validateString, validatePhoneNumber, validateAddress } = useValidators();
 
+// * page data
 const userAddress = ref({
   first_name: "",
   last_name: "",
@@ -17,17 +21,7 @@ const userAddress = ref({
   latLang: [35.6892, 51.389],
   gender: "",
 });
-const errors = ref({
-  first_name: "",
-  last_name: "",
-  coordinate_mobile: "",
-  coordinate_phone_number: "",
-  address: "",
-  latLang: "",
-  gender: "",
-});
-
-const showMap = ref(false);
+const pageStatus = ref("initial");
 
 async function addAddress() {
   try {
@@ -45,12 +39,6 @@ async function addAddress() {
     console.log("🚀 ~ addAddress ~ error:", error);
   }
 }
-
-function testValidator(target: string) {
-  console.log("s;dflka;sldkf;");
-  throw new Error("flsdkjsfld");
-}
-const err = ref("");
 </script>
 
 <template>
@@ -59,15 +47,13 @@ const err = ref("");
 
     <div>
       <label for="first_name">نام</label>
-      error test : {{ err }}
       <TextInput
         type="text"
         id="first_name"
         autocomplete="given-name"
-        :validator="testValidator"
+        :validator="validateString"
         inputmode="text"
         v-model="userAddress.first_name"
-        :inputError="err"
       />
       <label for="last_name">نام خانوادگی</label>
       <TextInput

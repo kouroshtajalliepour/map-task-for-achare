@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+// * imports
+import { ref } from "vue";
+
 // * types
 type IAutocomplete =
   | "on"
@@ -73,7 +76,11 @@ const props = defineProps<{
   dir?: "ltr" | "rtl";
   type?: "number" | "text";
 }>();
-const emit = defineEmits(["update:modelValue", "update:inputError"]);
+const emit = defineEmits(["update:modelValue"]);
+
+// * page data
+
+const inputError = ref("");
 
 // * functions
 function sanitizeNumber(e: any) {
@@ -109,11 +116,12 @@ function handleInput(e: any) {
     try {
       await props.validator(e.target.value);
     } catch (error: any) {
-      emit("update:inputError", error.message);
+      console.log("in catch");
+      inputError.value = error.message;
     }
   }
 
-  emit("update:inputError", "");
+  inputError.value = "";
   emit("update:modelValue", e.target.value);
   clearTimeout(updateValueTimeOut);
   updateValueTimeOut = setTimeout(updateValue, 1000);
@@ -121,7 +129,7 @@ function handleInput(e: any) {
 </script>
 
 <template>
-  <div :class="['text-input-wrapper', dir ? dir : '']">
+  <div :class="['text-input-wrapper', dir ? dir : '', inputError ? 'error' : '']">
     <input
       :value="modelValue?.toString()"
       :class="['text-input']"
@@ -132,6 +140,7 @@ function handleInput(e: any) {
       @input="handleInput"
       :placeholder="placeholder"
     />
+    <small v-if="inputError">{{ inputError }}</small>
   </div>
 </template>
 
@@ -145,12 +154,18 @@ function handleInput(e: any) {
     background-color: white;
     font-size: 1.1em;
     width: 100%;
-    border: 1px solid blue;
+    border: 1px solid #d4d4d4;
     padding: 3px;
     border-radius: 5px;
     outline: none;
+    transition: all 0.3s ease-out;
     &:focus {
-      border: 1px solid red;
+      border-color: #00bfa5;
+    }
+  }
+  &.error {
+    .text-input {
+      border-color: #e61236;
     }
   }
   &.rtl {

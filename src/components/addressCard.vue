@@ -125,6 +125,8 @@ function sanitizeGender(gender: string) {
     &.address-cart-address-wrapper {
       border-top: 1px solid #e0e0e0;
       display: block;
+      overflow-y: auto;
+      overflow-x: hidden;
       .address-cart-data-value {
         margin-top: 16px;
       }

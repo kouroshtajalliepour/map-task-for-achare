@@ -28,7 +28,7 @@ const mockedAddresses = [
         "state_name": "تهران"
       }
     },
-    "address": "Tehranparsadadada",
+    "address": "tehran ;slkdf sdkl fsdk lsdflk sdfl ksdfkl sdfl ksdfkl ;adsf;l kasdfl; ksdf l;kdfs kl;df kldf tehran ;slkdf sdkl fsdk lsdflk sdfl ksdfkl sdfl ksdfkl ;adsf;l kasdfl; ksdf l;kdfs kl;df kldf lkdf kldf kldf kldf kldf kldf kldf lkdf kldf kldf kl tehran ;slkdf sdkl fsdk lsdflk sdfl ksdfkl sdfl ksdfkl ;adsf;l kasdfl; ksdf l;kdfs kl;df kldf lkdf kldf kldf kldf kldf kldf kldf lkdf kldf kldf kl tehran ;slkdf sdkl fsdk lsdflk sdfl ksdfkl sdfl ksdfkl ;adsf;l kasdfl; ksdf l;kdfs kl;df kldf lkdf kldf kldf kldf kldf kldf kldf lkdf kldf kldf kl tehran ;slkdf sdkl fsdk lsdflk sdfl ksdfkl sdfl ksdfkl ;adsf;l kasdfl; ksdf l;kdfs kl;df kldf lkdf kldf kldf kldf kldf kldf kldf lkdf kldf kldf kllkdf kldf kldf kldf kldf kldf kldf lkdf kl tehran ;slkdf sdkl fsdk lsdflk sdfl ksdfkl sdfl ksdfkl ;adsf;l kasdfl; ksdf l;kdfs kl;df kldf lkdf kldf kldf kldf kldf kldf kldf lkdf kldf kldf kldf kldf kl tehran ;slkdf sdkl fsdk lsdflk sdfl ksdfkl sdfl ksdfkl ;adsf;l kasdfl; ksdf l;kdfs kl;df kldf lkdf kldf kldf kldf kldf kldf kldf lkdf kldf kldf kl",
     "last_name": "اکانت",
     "first_name": "تست",
     "gender": "",
@@ -510,28 +510,27 @@ export const useAddressesStore = defineStore('addresses', () => {
     gender,
   }: ICreateAddress) {
     try {
-      // const response = await fetch(
-      //   'https://stage.achareh.ir/api/karfarmas/address',
-      //   {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //       Authorization: 'Basic MDk4MjIyMjIyMjI6U2FuYTEyMzQ1Njc4',
-      //     },
-      //     body: JSON.stringify({
-      //       first_name,
-      //       last_name,
-      //       coordinate_mobile,
-      //       coordinate_phone_number,
-      //       address,
-      //       lat,
-      //       lang,
-      //       gender,
-      //     }),
-      //   }
-      // );
-      // const result = await response.json();
-      // console.log(result);
+      const response = await fetch(
+        'https://stage.achareh.ir/api/karfarmas/address',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Basic MDk4MjIyMjIyMjI6U2FuYTEyMzQ1Njc4',
+          },
+          body: JSON.stringify({
+            first_name,
+            last_name,
+            coordinate_mobile,
+            coordinate_phone_number,
+            address,
+            lat,
+            lang,
+            gender,
+          }),
+        }
+      );
+      const result = await response.json();
     } catch (error) {
       // * sanitize error response err.response._data.message
       throw error;
@@ -540,19 +539,19 @@ export const useAddressesStore = defineStore('addresses', () => {
   async function fetchAddresses (){
     try {
       loading.value = true
-      const response = await fetch(
-        'https://stage.achareh.ir/api/karfarmas/address',
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Basic MDk4MjIyMjIyMjI6U2FuYTEyMzQ1Njc4',
-          },
-        }
-      );
-      const data = await response.json();
-      addresses.value = data
-      // addresses.value = mockedAddresses
+      // const response = await fetch(
+      //   'https://stage.achareh.ir/api/karfarmas/address',
+      //   {
+      //     method: 'GET',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //       Authorization: 'Basic MDk4MjIyMjIyMjI6U2FuYTEyMzQ1Njc4',
+      //     },
+      //   }
+      // );
+      // const data = await response.json();
+      // addresses.value = data
+      addresses.value = mockedAddresses
       // console.log("🚀 ~ fetchAddresses ~ addresses.value:", addresses.value)
     } catch (error) {
       throw error;
