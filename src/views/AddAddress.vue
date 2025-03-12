@@ -1,13 +1,13 @@
 <script setup lang="ts">
 // * imports
-import { ref } from "vue";
-import { useAddressesStore } from "@/stores/address";
-import Map from "@/components/inputs/map.vue";
-import TextInput from "@/components/inputs/text.vue";
-import RadioInput from "@/components/inputs/radio.vue";
-import CheckIcon from "@/components/icons/check.vue";
-import LoadIcon from "@/components/icons/load.vue";
-import useValidators from "@/composables/useValidators";
+import { ref } from 'vue';
+import { useAddressesStore } from '@/stores/address';
+import Map from '@/components/inputs/map.vue';
+import TextInput from '@/components/inputs/text.vue';
+import RadioInput from '@/components/inputs/radio.vue';
+import CheckIcon from '@/components/icons/check.vue';
+import LoadIcon from '@/components/icons/load.vue';
+import useValidators from '@/composables/useValidators';
 
 // * composables
 const createAddress = useAddressesStore();
@@ -15,24 +15,24 @@ const { validateString, validatePhoneNumber } = useValidators();
 
 // * page data
 const userAddress = ref({
-  first_name: "",
-  last_name: "",
-  coordinate_mobile: "",
-  coordinate_phone_number: "",
-  address: "",
+  first_name: '',
+  last_name: '',
+  coordinate_mobile: '',
+  coordinate_phone_number: '',
+  address: '',
   latLang: [35.6892, 51.389],
-  gender: "",
+  gender: '',
 });
 const pageStatus = ref(0);
 const formLoading = ref(false);
 const genderEntries = ref([
   {
-    key: "male",
-    value: "آقا",
+    key: 'male',
+    value: 'آقا',
   },
   {
-    key: "female",
-    value: "خانم",
+    key: 'female',
+    value: 'خانم',
   },
 ]);
 
@@ -62,7 +62,7 @@ function navigateToMap() {
     !userAddress.value.address ||
     !userAddress.value.gender
   ) {
-    alert("لطفا فیلد های اجباری را تکمیل کنید");
+    alert('لطفا فیلد های اجباری را تکمیل کنید');
     return;
   }
   pageStatus.value++;
@@ -83,7 +83,7 @@ async function addAddress() {
     });
     pageStatus.value++;
   } catch (error) {
-    console.log("🚀 ~ addAddress ~ error:", error);
+    console.log('🚀 ~ addAddress ~ error:', error);
   } finally {
     formLoading.value = false;
   }
@@ -93,8 +93,15 @@ async function addAddress() {
 <template>
   <main>
     <section class="create-address-page-outer-wrapper">
-      <div :class="['create-address-page-wrapper', pageStatus === 1 ? 'no-padding' : '']">
-        <h3 v-if="pageStatus === 0" class="add-address page-heading">ثبت آدرس</h3>
+      <div
+        :class="[
+          'create-address-page-wrapper',
+          pageStatus === 1 ? 'no-padding' : '',
+        ]"
+      >
+        <h3 v-if="pageStatus === 0" class="add-address page-heading">
+          ثبت آدرس
+        </h3>
         <form
           v-if="pageStatus === 0"
           class="create-address-page form-page"
@@ -116,7 +123,9 @@ async function addAddress() {
             </div>
 
             <div class="create-address-text-input-wrapper">
-              <label class="text-input-label" for="last_name">نام خانوادگی</label>
+              <label class="text-input-label" for="last_name"
+                >نام خانوادگی</label
+              >
               <TextInput
                 type="text"
                 id="last_name"
@@ -127,7 +136,9 @@ async function addAddress() {
               />
             </div>
             <div class="create-address-text-input-wrapper">
-              <label class="text-input-label" for="phone_number">شماره تلفن همراه</label>
+              <label class="text-input-label" for="phone_number"
+                >شماره تلفن همراه</label
+              >
               <TextInput
                 type="number"
                 id="phone_number"
@@ -175,7 +186,9 @@ async function addAddress() {
           <div class="address-added-wrapper">
             <div class="success-message-wrapper">
               <CheckIcon />
-              <p class="success-message-context">اطلاعات شما با موفقیت ثبت شد</p>
+              <p class="success-message-context">
+                اطلاعات شما با موفقیت ثبت شد
+              </p>
             </div>
             <router-link class="see-info-button" to="/addresses"
               >مشاهده اطلاعات</router-link
@@ -186,7 +199,11 @@ async function addAddress() {
     </section>
     <div class="footer-reserve-space"></div>
     <footer v-if="pageStatus !== 2" class="app-footer">
-      <button class="app-footer-button" type="button" @click="handleButtonClick">
+      <button
+        class="app-footer-button"
+        type="button"
+        @click="handleButtonClick"
+      >
         <LoadIcon v-if="formLoading" />
         <p v-else class="button-context">ثبت و ادامه</p>
       </button>
@@ -195,7 +212,7 @@ async function addAddress() {
 </template>
 
 <style lang="scss">
-@import "@/assets/styles/global.scss";
+@import '@/assets/styles/global.scss';
 .create-address-page-outer-wrapper {
   display: flex;
   justify-content: center;
@@ -264,23 +281,23 @@ async function addAddress() {
         .success-message-context {
           margin-top: 14px;
         }
-        .see-info-button {
-          border: 1.5px solid $Primary-color;
-          border-radius: 4px;
-          width: 340px;
-          text-align: center;
-          padding: 12px 0px;
-          font-weight: 700;
-          font-size: 16px;
-          text-decoration: none;
-          color: $Primary-color;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
       }
     }
   }
+}
+.see-info-button {
+  border: 1.5px solid $Primary-color;
+  border-radius: 4px;
+  width: 340px;
+  text-align: center;
+  padding: 12px 0px;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  color: $Primary-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .footer-reserve-space {
   background-color: white;
@@ -300,6 +317,7 @@ async function addAddress() {
   position: fixed;
   bottom: 0;
   right: 0;
+  z-index: 2;
   .app-footer-button {
     width: 343px;
     max-width: 90vw;
