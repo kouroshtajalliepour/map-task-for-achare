@@ -4,6 +4,7 @@ import { ref } from "vue";
 import { useAddressesStore } from "@/stores/address";
 import Map from "@/components/inputs/map.vue";
 import TextInput from "@/components/inputs/text.vue";
+import RadioInput from "@/components/inputs/radio.vue";
 import Check from "@/components/icons/check.vue";
 import useValidators from "@/composables/useValidators";
 
@@ -22,6 +23,16 @@ const userAddress = ref({
   gender: "",
 });
 const pageStatus = ref(0);
+const genderEntries = ref([
+  {
+    key: "male",
+    value: "آقا",
+  },
+  {
+    key: "female",
+    value: "خانم",
+  },
+]);
 
 function navigateToMap() {
   if (
@@ -62,7 +73,7 @@ async function addAddress() {
     <form
       v-if="pageStatus === 0"
       class="create-address-page form-page"
-      @submit="navigateToMap"
+      @submit.preventDefault="navigateToMap"
     >
       <h6 class="form-heading">لطفا مشخصات و آدرس خود را وارد کنید</h6>
 
@@ -127,17 +138,9 @@ async function addAddress() {
         </div>
       </div>
 
-      <div class="radio_gender">
-        <label>
-          <input value="male" type="radio" v-model="userAddress.gender" />
-          مرد
-        </label>
-        <label>
-          <input value="female" type="radio" v-model="userAddress.gender" />
-          زن
-        </label>
-      </div>
-      <input type="submit" value="submit" />
+      <RadioInput v-model="userAddress.gender" :entries="genderEntries" />
+
+      <input class="invisible-submit" type="submit" value="submit" />
     </form>
     <div v-if="pageStatus === 1" class="create-address-page map-page">
       <Map class="form-map-input" v-model="userAddress.latLang" />
